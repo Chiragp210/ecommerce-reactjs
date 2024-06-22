@@ -1,0 +1,33 @@
+.contact-container {
+    max-width: 400px;
+    margin: 0 auto;
+    margin-top: 20px;
+    align-items: center;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+  
+  .contact-container h1 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .user-details {
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .user-details p {
+    margin-bottom: 10px;
+  }
+  
+  .login-prompt {
+    font-style: italic;
+    color: #888;
+    text-align: center;
+  }
