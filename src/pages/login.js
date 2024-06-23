@@ -2,10 +2,12 @@
 import React,{useState} from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../features/user_slice';
 import './login.css';
 
 const Login = () => {
-
+    const dispatch = useDispatch();
     const [loginData, setLoginData ] = useState({
         email:'',
         password:''
@@ -51,7 +53,7 @@ const Login = () => {
 
             // Store token or other user info in localStorage
             localStorage.setItem('token', response.data.token);
-            localStorage.setItem('user', JSON.stringify(response.data.user));
+            dispatch(setUser(response.data.user));
 
             // Redirect to home page
             navigate('/home');

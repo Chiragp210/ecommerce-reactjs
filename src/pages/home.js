@@ -1,10 +1,15 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
 import './home.css';
+import { setCart, addToCart } from '../features/cart_slice.js';
 
-const home = ({ setCart }) => { // Ensure setCart is passed as prop correctly
+
+const home = () => { // Ensure setCart is passed as prop correctly
+  const dispatch = useDispatch();
   const [products, setProducts] = useState([]);
+  const cart = useSelector((state) => state.cart);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -17,22 +22,10 @@ const home = ({ setCart }) => { // Ensure setCart is passed as prop correctly
     };
 
     fetchProducts();
-  }, []);
+  }, [dispatch]);
 
-  const handleAddToCart = (productId) => {
-    const productToAdd = products.find(product => product._id === productId);
-    if (productToAdd) {
-      setCart(prevCart => {
-        const updatedCart = [...prevCart];
-        const existingItem = updatedCart.find(item => item._id === productId);
-        if (existingItem) {
-          existingItem.quantity++;
-        } else {
-          updatedCart.push({ ...productToAdd, quantity: 1 });
-        }
-        return updatedCart;
-      });
-    }
+  const handleAddToCart = (product) => {
+    dispatch(addToCart(product));
   };
 
   return (
@@ -52,7 +45,7 @@ const home = ({ setCart }) => { // Ensure setCart is passed as prop correctly
               <h3>{product.title}</h3>
               <p className="product-description">{product.description}</p>
               <p className="product-price">Price: ₹{product.price}</p>
-              <button onClick={() => handleAddToCart(product._id)} className="add-to-cart-btn">
+              <button onClick={() => handleAddToCart(product)} className="add-to-cart-btn">
                 Add to Cart
               </button>
             </div>

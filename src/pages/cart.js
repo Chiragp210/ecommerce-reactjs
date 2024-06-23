@@ -1,9 +1,14 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { removeFromCart, increaseQuantity, decreaseQuantity } from '../features/cart_slice';
 import './cart.css';
 
-const cart = ({ cart, updateCart, userId }) => {
+const cart = () => {
+  const dispatch = useDispatch();
+  const cart = useSelector((state) => state.cart);
+  const user = useSelector((state) => state.user);
   const [totalQuantity, setTotalQuantity] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
   const [paymentMethod, setPaymentMethod] = useState('COD');
@@ -26,34 +31,25 @@ const cart = ({ cart, updateCart, userId }) => {
   }, [cart]);
 
   const handleRemoveFromCart = (productId) => {
-    const updatedCart = cart.filter(item => item._id !== productId);
-    updateCart(updatedCart);
+    dispatch(removeFromCart(productId));
   };
 
   const handleIncreaseQuantity = (productId) => {
-    const updatedCart = [...cart];
-    const existingItem = updatedCart.find(item => item._id === productId);
-    if (existingItem) {
-      existingItem.quantity++;
-      updateCart(updatedCart);
-    }
+    dispatch(increaseQuantity(productId));
   };
 
   const handleDecreaseQuantity = (productId) => {
-    const updatedCart = [...cart];
-    const existingItem = updatedCart.find(item => item._id === productId);
-    if (existingItem && existingItem.quantity > 1) {
-      existingItem.quantity--;
-      updateCart(updatedCart);
-    }
+    dispatch(decreaseQuantity(productId));
   };
 
+
+  
   const handleCheckout = async () => {
     try {
       const orderData = {
-        userId,
+        userId: user._id,
         cartItems: cart,
-        paymentMethod
+        paymentMethod,
       };
 
       const response = await axios.post('http://localhost:3200/api/order', orderData);
@@ -62,6 +58,7 @@ const cart = ({ cart, updateCart, userId }) => {
       alert('Error creating order:', error);
     }
   };
+
 
   return (
     <div className="cart-container">
