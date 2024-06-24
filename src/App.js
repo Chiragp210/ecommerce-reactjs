@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import './App.css';
 import Header from './components/header.js';
@@ -11,6 +11,7 @@ import Register from './pages/register.js';
 import Home from './pages/home.js';
 import ShoppingCart from './pages/shoppingcart.js';
 import Contact from './pages/contact.js';
+import ProductDetails from './pages/productdetails.js';
 
 function App() {
 
@@ -27,21 +28,11 @@ function App() {
   }, [dispatch]);
 
   useEffect(() => {
-    const savedCart = JSON.parse(localStorage.getItem('cart'));
-    if (savedCart) {
-      dispatch(setCart(savedCart));
-    }
-  }, [dispatch]);
-
-  useEffect(() => {
     if (user) {
       localStorage.setItem('user', JSON.stringify(user));
     }
   }, [user]);
 
-  useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(cart));
-  }, [cart]);
 
   return (
     <Router>
@@ -53,6 +44,7 @@ function App() {
         <Route path="/home" element={user ? <Home setCart={setCart} /> : <Navigate to="/login" />} />
         <Route path="/cart" element={user ? <ShoppingCart cart={cart} setCart={setCart} /> : <Navigate to="/login" />} />
         <Route path="/contact" element={user ? <Contact /> : <Navigate to="/login" />} />
+        <Route path="/product/:id" element={<ProductDetails />} />
       </Routes>
       <Footer />
     </Router>

@@ -71,9 +71,9 @@ const cart = () => {
             <div key={item._id} className="cart-item">
               <img src={item.image} alt={item.title} className="cart-item-image" />
               <div className="cart-item-details">
-                <h3>{item.title}</h3>
-                <p>Price: ₹{item.price}</p>
-                <p>Quantity: {item.quantity}</p>
+              <h3>{ item.title }</h3>
+              <p>Price: ₹{ item.price }</p>
+              <p>Quantity: { item.quantity }</p>
                 <button onClick={() => handleIncreaseQuantity(item._id)}>+</button>
                 <br/>
                 <button onClick={() => handleDecreaseQuantity(item._id)}>-</button>
